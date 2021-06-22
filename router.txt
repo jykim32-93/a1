@@ -1,0 +1,84 @@
+Tue Jun 22 14:46:44 EDT 2021
+
+hostname:router
+
+SELinux status:Enforcing
+
+release:4.18.0-305.3.1.el8.x86_64
+
+UUID:acf5ce23-01 acf5ce23-02 340c51dc-89fd-42e3-9a74-da365fa7f126 913282fd-33f0-4e21-83cc-ff7e97319e38
+
+firewalld:active
+firewalld:enabled
+named:inactive
+named:
+
+external (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens224
+  sources: 
+  services: dns ssh
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: ens192
+  sources: 
+  services: cockpit dhcpv6-client ssh
+  ports: 
+  protocols: 
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+
+
+ipv4 nat POSTROUTING 3 -p tcp -s 172.20.17.0/16 -j MASQUERADE
+ipv4 nat POSTROUTING 2 -p tcp -s 172.20.17.0/16 -d 172.20.0.0/16 -j ACCEPT
+ipv4 nat POSTROUTING 2 -p tcp -s 172.20.17.0/16 -d 192.168.0.0/16 -j ACCEPT
+ipv4 nat POSTROUTING 3 -s 172.20.17.0/16 -j MASQUERADE
+ipv4 nat POSTROUTING 3 -p tcp -s 192.168.17.0/24 -j MASQUERADE
+ipv4 nat POSTROUTING 2 -p tcp -s 192.168.17.0/24 -d 172.20.0.0/16 -j ACCEPT
+ipv4 nat POSTROUTING 2 -p tcp -s 192.168.17.0/24 -d 192.168.0.0/16 -j ACCEPT
+ipv4 nat POSTROUTING 3 -s 192.168.17.0/24 -j MASQUERADE
+ipv4 filter FORWARD 5 -p tcp -d 172.20.17.0/24 -j ACCEPT
+ipv4 filter FORWARD 5 -p tcp -d 172.20.17.0/16 -j ACCEPT
+ipv4 filter FORWARD 5 -p tcp -d 192.168.17.0/24 -j ACCEPT
+ipv4 filter FORWARD 6 -p tcp -s 172.20.17.0/24 -j ACCEPT
+ipv4 filter FORWARD 6 -p tcp -s 172.20.17.0/16 -j ACCEPT
+ipv4 filter FORWARD 6 -p tcp -s 192.168.17.0/24 -j ACCEPT
+
+Addresses
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens192: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:50:56:00:02:25 brd ff:ff:ff:ff:ff:ff
+    inet 172.20.17.1/16 brd 172.20.255.255 scope global dynamic noprefixroute ens192
+       valid_lft 71769sec preferred_lft 71769sec
+    inet6 fe80::250:56ff:fe00:225/64 scope link 
+       valid_lft forever preferred_lft forever
+3: ens224: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:bb:91:db brd ff:ff:ff:ff:ff:ff
+    inet 192.168.17.1/24 brd 192.168.17.255 scope global noprefixroute ens224
+       valid_lft forever preferred_lft forever
+    inet6 fe80::2bf7:b49a:36d1:e8ce/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+4: ens256: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:0c:29:bb:91:e5 brd ff:ff:ff:ff:ff:ff
+
+Named Config
+
+Zone config
